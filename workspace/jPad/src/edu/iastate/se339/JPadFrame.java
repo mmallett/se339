@@ -73,7 +73,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 	// main text area holder: a scrolling pane
 	private JScrollPane textPane;
 	
-	private MyTabbedPane tabbedPane;
+	private TabbedPane tabbedPane;
 	
 	//private FileTreePanel treePane;
 	
@@ -157,7 +157,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 		 *  4. put text area in a scrollpane
 		 *  5. put the scrollpane in the frames content pane
 		 ****************************************************************************************/
-		tabbedPane = new MyTabbedPane(this);
+		tabbedPane = new TabbedPane(this);
 		textList = new ArrayList<JTextArea>();
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
@@ -528,7 +528,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 		changedList.add(false);
 		tabbedPane.add(title,new JScrollPane(textList.get(textList.size()-1)));
 		tabbedPane.setSelectedIndex(tabbedPane.getComponentCount()-1);
-		tabbedPane.setIconAt(tabbedPane.getComponentCount()-1, new CloseTabIconmmallett(null));
+		tabbedPane.setIconAt(tabbedPane.getComponentCount()-1, new CloseTabIcon(null));
 	}
 	
 	/**
@@ -572,9 +572,6 @@ public class JPadFrame extends JFrame implements ActionListener,
 			popup.add(replace);
 			popup.add(replaceAll);
 			popup.add(find);
-			/*popup.add(small);
-			popup.add(medium);
-			popup.add(large);*/
 			popup.show(e.getComponent(), e.getX(), e.getY());
 		}
 	}
@@ -600,126 +597,4 @@ public class JPadFrame extends JFrame implements ActionListener,
 	}
 	
 	
-}
-
-/**
- * Extension of JTabbedPane that builds close icon funcitonality into the class
- * through the MouseListener interface
- * @author mrmallet
- *
- */
-class MyTabbedPane extends JTabbedPane implements MouseListener{
-
-	private JPadFrame xtext;
-	
-	/**
-	 * Create a new MyTabbedPane with itself attached as a mouselistener
-	 * @param xtext
-	 */
-	public MyTabbedPane(JPadFrame xtext){
-		super();
-		this.addMouseListener(this);
-		this.xtext = xtext;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-	 * If the close icon was clicked, closes the corresponding tab. closeTab() handles all of
-	 * the complexities of closing a tab.
-	 */
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		for(int i = 0; i < this.getComponentCount(); i++){
-			CloseTabIconmmallett icon = (CloseTabIconmmallett) this.getIconAt(i);
-			Rectangle rec = icon.getBounds();
-			if(rec.contains(arg0.getPoint())){
-				xtext.closeTab(i);
-			}
-		}
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-}
-
-/**
- * Given in spec
- * Creates a close button icon that can be placed on a MyTabbedPane tab
- * @author mrmallet
- *
- */
-class CloseTabIconmmallett implements Icon {
-	private int x_pos;
-	private int y_pos;
-	private int width;
-	private int height;
-	private Icon fileIcon;
-	
-	/*
-	 * Called as new CloseTabIcon(null) in my code
-	 * @param fileIcon
-	 */
-	public CloseTabIconmmallett(Icon fileIcon) {
-		this.fileIcon=fileIcon;
-		width=16;
-		height=16;
-	}
-			
-	public void paintIcon(Component c, Graphics g, int x, int y) {
-		this.x_pos=x;
-		this.y_pos=y;
-		Color col=g.getColor();
-		g.setColor(Color.black);
-		int y_p=y+2;
-		g.drawLine(x+1, y_p, x+12, y_p);
-		g.drawLine(x+1, y_p+13, x+12, y_p+13);
-		g.drawLine(x, y_p+1, x, y_p+12);
-		g.drawLine(x+13, y_p+1, x+13, y_p+12);
-		g.drawLine(x+3, y_p+3, x+10, y_p+10);
-		g.drawLine(x+3, y_p+4, x+9, y_p+10);
-		g.drawLine(x+4, y_p+3, x+10, y_p+9);
-		g.drawLine(x+10, y_p+3, x+3, y_p+10);
-		g.drawLine(x+10, y_p+4, x+4, y_p+10);
-		g.drawLine(x+9, y_p+3, x+3, y_p+9);
-		g.setColor(col);
-		if (fileIcon != null) {
-			fileIcon.paintIcon(c, g, x+width, y_p);
-		}
-	}
-		
-	public int getIconWidth() {
-		return width + (fileIcon != null? fileIcon.getIconWidth() : 0);
-	}
-	
-	public int getIconHeight() {
-		return height;
-	}
-	
-	public Rectangle getBounds() {
-		return new Rectangle(x_pos, y_pos, width, height);
-	}
 }
