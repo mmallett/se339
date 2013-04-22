@@ -12,8 +12,7 @@ public class BinaryRepresentation extends AbstractRepresentation {
 		StringBuilder sb = new StringBuilder();
 		for(byte b : rawBytes){
 			for(int i=7; i>=0; i--){
-				byte mask = (byte) (0xFF >> 8 - i);
-				sb.append(Integer.toString(((b & mask) >> i - 1)));
+				sb.append(Integer.toString((b >> i - 1) & 1));
 			}
 		}
 		return sb.toString();

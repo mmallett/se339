@@ -17,11 +17,11 @@ public class WordLengthDecorator extends AbstractDecorator{
 	public String toString() {
 		StringBuilder b = new StringBuilder();
 		String in = component.toString();
-		for(int i = 0; i < in.length(); i += component.bitsPerChar){
-			b.append(in.substring(i, i + component.bitsPerChar));
-			if((i + component.bitsPerChar) % wordLength == 0){
+		for(int i = 0; i < in.length(); i++){
+			if(((i * component.bitsPerChar) % wordLength) == 0 && i != 0){
 				b.append(" ");
 			}
+			b.append(in.charAt(i));
 		}
 		return b.toString();
 	}

@@ -38,6 +38,13 @@ public class DecoratorTester {
 		System.out.println(new WordLengthDecorator(bin1));
 		System.out.println(new WordLengthDecorator(bin2));
 		System.out.println(new WordLengthDecorator(bin3));
+		
+		System.out.println(new WordTokenizerDecorator(new WordLengthDecorator(ox1, 32)) + "FIN");
+		System.out.println(new WordTokenizerDecorator(new WordLengthDecorator(ox2, 64)) + "FIN");
+		System.out.println(new WordTokenizerDecorator(new WordLengthDecorator(ox3)) + "FIN");
+		System.out.println(new WordTokenizerDecorator(new WordLengthDecorator(bin1, 32)) + "FIN");
+		System.out.println(new WordTokenizerDecorator(new WordLengthDecorator(bin2)) + "FIN");
+		System.out.println(new WordTokenizerDecorator(new WordLengthDecorator(bin3)) + "FIN");
 	}
 
 }
