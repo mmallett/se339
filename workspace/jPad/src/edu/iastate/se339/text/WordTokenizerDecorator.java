@@ -28,6 +28,9 @@ public class WordTokenizerDecorator extends AbstractDecorator{
 			if(++i % wordsPerLine == 0){
 				sb.append("\n");
 			}
+			else{
+				sb.append(delimiter);
+			}
 		}
 		return sb.toString();
 	}
