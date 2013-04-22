@@ -1,61 +1,4 @@
 package edu.iastate.se339;
-/*
-Matt Mallett
-SE319 HW4
-Compiled against Java 7
-
-PLEASE NOTE
-I had to take specific action against symbolic links. I couldn't find a way to get them to work correctly,
-so my tree filters them out. As a result, you won't see My Documents, Start Menu, Local Settings etc in
-my file tree.
-
-This is the check I use to filter out these, and other problem causing directories:
-	for(File f : cwd.listFiles()){
-		if(!f.isHidden() && Files.isReadable(f.toPath()) && !Files.isSymbolicLink(f.toPath()))
- */
-
-
-/********************************************************************************
- * Homework on Java Swing: A simple text editor
- * 
- * Code Map
- * 
- * XText1: type JFrame acts as the main window and implements all listeners
- * 	ActionListener for menuitems and popup menuitem
- *  MouseListener for popping up popup menu
- * 	DocumentListener for keeping track of edits in text area
- * 
- * XText1 
- * contains a textPane (type: JScrollPane)
- *   - textPane contains text (type: JTextArea) 
- * contains menubar (type: JMenuBar)
- *   - menubar contains munus and menuitems
- * 
- * XText1 class contains all the methods: will ease the extension homework
- * MyFileFilter class contains the file filter description: will ease grading
- * 
- * 1. settingTextAreaProperty: listeners, editing features etc. (should be a hint for next homework)
- * 2. createFileMenu
- * 3. createEditSubMenu 
- * 4. createEditMenu: uses abstract action 
- * 5. createMenuBar
- * 6. actionPerformed: listener -> xnewHandler, openHandler, saveHandler, exitHandler
- * 7. xnewHandler 
- * 8. openHandler
- * 9. saveHandler
- * 10.exitHandler
- * 11.replaceHandler
- * 12.replaceAllHandler
- * 13.smallHandler
- * 14.mediumHandler
- * 15.largeHandler
- * 16.mouse listener methods
- * 17.document listener methods
- * 
- * MyFileFiler: extends FileFilter class
- **********************************************************************************/
-
-
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -139,7 +82,6 @@ public class JPadFrame extends JFrame implements ActionListener,
 	// menubar with menus
 	private JMenuBar menubar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
-	private JMenu optionSubMenu = new JMenu("Font Size");
 	private JMenu editMenu = new JMenu("Edit");
 	
 	// file menu items
@@ -183,32 +125,6 @@ public class JPadFrame extends JFrame implements ActionListener,
 		}
 	};
 	
-	/*
-	private AbstractAction small = new AbstractAction("Small") 
-	{
-		public void actionPerformed(ActionEvent event)
-		{
-			smallHandler();
-		}
-	};
-	
-	private AbstractAction medium = new AbstractAction("Medium") 
-	{
-		public void actionPerformed(ActionEvent event)
-		{
-			mediumHandler();
-		}
-	};
-	
-	private AbstractAction large = new AbstractAction("Large") 
-	{
-		public void actionPerformed(ActionEvent event)
-		{
-			largeHandler();
-		}
-	};*/
-
-	
 	// creating the main 
 	public static void main(String[] args) 
 	{
@@ -243,14 +159,6 @@ public class JPadFrame extends JFrame implements ActionListener,
 		 ****************************************************************************************/
 		tabbedPane = new MyTabbedPane(this);
 		textList = new ArrayList<JTextArea>();
-		//textList.add(new JTextArea());
-		//text = new JTextArea();
-		//settingTextAreaProperty(textList.get(0));
-		//textPane = new JScrollPane(text);
-		//tabbedPane.add("XText:New",new JScrollPane(textList.get(0)));
-		//treePane = new FileTreePanelmmallett(this);
-		//splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,treePane, tabbedPane);
-		//getContentPane().add(splitPane, BorderLayout.CENTER);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
 		// set the documentChanged to false to indicate initially nothing has changed in the text area
