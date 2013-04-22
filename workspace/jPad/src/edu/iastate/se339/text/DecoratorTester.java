@@ -31,6 +31,13 @@ public class DecoratorTester {
 		System.out.println(bin1);
 		System.out.println(bin2);
 		System.out.println(bin3);
+		
+		System.out.println(new WordLengthDecorator(ox1));
+		System.out.println(new WordLengthDecorator(ox2));
+		System.out.println(new WordLengthDecorator(ox3));
+		System.out.println(new WordLengthDecorator(bin1));
+		System.out.println(new WordLengthDecorator(bin2));
+		System.out.println(new WordLengthDecorator(bin3));
 	}
 
 }
