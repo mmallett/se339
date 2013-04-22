@@ -6,3 +6,5 @@
 1366595528057	Rename compilation unit 'Something.java'
 1366595715236	Rename type 'MyTabbedPane'
 1366596511680	Rename type 'FileByteReader'
+1366600861807	Rename type 'BaseTextRepresentation'
+1366601561364	Rename type 'TextRepresentation'
