@@ -94,6 +94,12 @@ public class JPadFrame extends JFrame implements ActionListener,
 		}
 	};
 	
+	/*private AbstractAction customize = new AbstractAction("Customize"){
+		public void actionPerformed(ActionEvent event){
+			customizeHandler();
+		}
+	}*/
+	
 	// creating the main 
 	public static void main(String[] args) 
 	{
@@ -180,7 +186,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 	
 	public void createViewMenu(){
 		viewMenu.add(customize);
-		
+		customize.addActionListener(this);
 	}
 
 

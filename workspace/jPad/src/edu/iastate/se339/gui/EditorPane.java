@@ -14,6 +14,7 @@ import edu.iastate.se339.text.AbstractRepresentation;
 import edu.iastate.se339.text.AsciiRepresentation;
 import edu.iastate.se339.text.BinaryRepresentation;
 import edu.iastate.se339.text.HexRepresentation;
+import edu.iastate.se339.text.NoOpDecorator;
 import edu.iastate.se339.text.WordLengthDecorator;
 import edu.iastate.se339.text.WordTokenizerDecorator;
 
@@ -54,35 +55,60 @@ public class EditorPane extends JPanel{
 		text.setTabSize(3);
 	}
 
-	public void customize() {
-		CustomizeFrame cust = new CustomizeFrame("Customize");
-		cust.setVisible(true);
-		while(cust.getResult() == CustomizeFrame.RESULT_INVALID);
-		if(cust.getResult() == CustomizeFrame.RESULT_OK){
-			byte[] bytes = decoratorStack.peek().getRawBytes();
-			decoratorStack.clear();
-			if(cust.getSelectedBase().equals("ASCII")){
-				decoratorStack.push(new AsciiRepresentation(bytes));
+	public void customizeClicked() {
+		CustomizeFrame cust = new CustomizeFrame("Customize", this);
+		Thread t = new Thread(cust);
+		t.start();
+	}
+
+	public void buildNewStack(String base, String wordLength, String wordsPerLine) {
+		byte[] bytes = decoratorStack.peek().getRawBytes();
+		decoratorStack.clear();
+		/*if(cust.getSelectedBase().equals("ASCII")){
+			decoratorStack.push(new AsciiRepresentation(bytes));
+		}
+		else{
+			if(cust.getSelectedBase().equals("HEX")){
+				decoratorStack.push(new HexRepresentation(bytes));
 			}
 			else{
-				if(cust.getSelectedBase().equals("HEX")){
-					decoratorStack.push(new HexRepresentation(bytes));
-				}
-				else{
-					decoratorStack.push(new BinaryRepresentation(bytes));
-				}
-				decoratorStack.push(
-						new WordLengthDecorator(
-							decoratorStack.peek(),
-							Integer.parseInt(cust.getSelectedLength())));
-				decoratorStack.push(
-						new WordTokenizerDecorator(
-							decoratorStack.peek(),
-							"",
-							Integer.parseInt(cust.getSelectedLineLength())));
+				decoratorStack.push(new BinaryRepresentation(bytes));
 			}
+			decoratorStack.push(
+					new WordLengthDecorator(
+						decoratorStack.peek(),
+						Integer.parseInt(cust.getSelectedLength())));
+			decoratorStack.push(
+					new WordTokenizerDecorator(
+						decoratorStack.peek(),
+						"",
+						Integer.parseInt(cust.getSelectedLineLength())));
+		}*/
+		if(base.equals("ASCII")){
+			decoratorStack.push(new AsciiRepresentation(bytes));
+		}
+		else if(base.equals("HEX")){
+			decoratorStack.push(new HexRepresentation(bytes));
+		}
+		else{
+			decoratorStack.push(new BinaryRepresentation(bytes));
 		}
 		
+		if(Integer.parseInt(wordLength) == -1){
+			decoratorStack.push(new NoOpDecorator(decoratorStack.peek()));
+		}
+		else{
+			decoratorStack.push(new WordLengthDecorator(decoratorStack.peek(), Integer.parseInt(wordLength)));
+		}
+		
+		if(Integer.parseInt(wordsPerLine) == -1){
+			decoratorStack.push(new NoOpDecorator(decoratorStack.peek()));
+		}
+		else{
+			decoratorStack.push(new WordTokenizerDecorator(decoratorStack.peek(), " ", Integer.parseInt(wordsPerLine)));
+		}
+		
+		text.setText(decoratorStack.peek().toString());
 		
 	}
 }

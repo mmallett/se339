@@ -1,5 +1,7 @@
 package edu.iastate.se339.gui;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,12 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 
-public class CustomizeFrame extends JFrame implements ActionListener{
-	
-	public static final int RESULT_OK = 1234;
-	public static final int RESULT_CANCEL = 4321;
-	public static final int RESULT_INVALID = 0;
-	private int result;
+public class CustomizeFrame extends JFrame implements ActionListener, Runnable{
 	
 	public static final String[] TEXT_BASES ={
 		"ASCII",
@@ -30,38 +27,41 @@ public class CustomizeFrame extends JFrame implements ActionListener{
 		"1","2","3","4"
 	};
 	
-	JComboBox<String> textList;
-	JComboBox<String> lengthList;
-	JComboBox<String> lineList;
-	JButton ok;
-	JButton cancel;
+	private JComboBox<String> textList;
+	private JComboBox<String> lengthList;
+	private JComboBox<String> lineList;
+	private JButton ok;
+	private JButton cancel;
 	
-	CustomizeFrame(String title){
+	private EditorPane editorPane;
+	
+	CustomizeFrame(String title, EditorPane editorPane){
 		super(title);
-		setSize(500,500);
+		setSize(350,150);
+		setLayout(new GridLayout(4,2));
 		
-		getContentPane().add(new JLabel("Text Base"));
+		getContentPane().add(new JLabel("Text Base"), BorderLayout.CENTER);
 		textList = new JComboBox<String>(TEXT_BASES);
 		textList.setSelectedIndex(0);
-		getContentPane().add(textList);
+		getContentPane().add(textList, BorderLayout.CENTER);
 		
-		getContentPane().add(new JLabel("Word Length (bits)"));
+		getContentPane().add(new JLabel("Word Length (bits)"), BorderLayout.CENTER);
 		lengthList = new JComboBox<String>(WORD_LENGTH);
 		lengthList.setSelectedIndex(0);
-		getContentPane().add(lengthList);
+		getContentPane().add(lengthList, BorderLayout.CENTER);
 		
-		getContentPane().add(new JLabel("Words per line"));
+		getContentPane().add(new JLabel("Words per line"), BorderLayout.CENTER);
 		lineList = new JComboBox<String>(WORDS_PER_LINE);
 		lineList.setSelectedIndex(0);
-		getContentPane().add(lineList);
-		
-		ok = new JButton("Ok");
-		ok.addActionListener(this);
+		getContentPane().add(lineList, BorderLayout.CENTER);
 		
 		cancel = new JButton("Cancel");
 		cancel.addActionListener(this);
+		getContentPane().add(cancel, BorderLayout.CENTER);
 		
-		result = RESULT_INVALID;
+		ok = new JButton("Ok");
+		ok.addActionListener(this);
+		getContentPane().add(ok, BorderLayout.CENTER);
 	}
 	
 	public String getSelectedBase(){
@@ -69,26 +69,32 @@ public class CustomizeFrame extends JFrame implements ActionListener{
 	}
 	
 	public String getSelectedLength(){
+		if(getSelectedBase().equals("ASCII")){
+			return "-1";
+		}
 		return lengthList.getSelectedItem().toString();
 	}
 	
 	public String getSelectedLineLength(){
+		if(getSelectedBase().equals("ASCII")){
+			return "-1";
+		}
 		return lineList.getSelectedItem().toString();
-	}
-	
-	public int getResult(){
-		return result;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(ok)){
-			result = RESULT_OK;
 			setVisible(false);
+			editorPane.buildNewStack(getSelectedBase(),getSelectedLength(),getSelectedLineLength());
 		}
 		else if(e.getSource().equals(cancel)){
-			result = RESULT_CANCEL;
 			setVisible(false);
 		}
+	}
+
+	@Override
+	public void run() {
+		setVisible(true);
 	}
 }

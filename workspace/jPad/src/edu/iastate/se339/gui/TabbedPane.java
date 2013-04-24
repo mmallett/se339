@@ -66,7 +66,12 @@ class TabbedPane extends JTabbedPane implements MouseListener{
 	}
 	
 	public void customize(){
-		tabs.get(getSelectedIndex()).customize();
+		if(!tabs.isEmpty()){
+			tabs.get(getSelectedIndex()).customizeClicked();
+		}
+		else{
+			JOptionPane.showMessageDialog(this, "No Tabs to Customize!");
+		}
 	}
 	
 	/*
