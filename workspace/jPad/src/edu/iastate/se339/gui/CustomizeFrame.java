@@ -87,7 +87,6 @@ public class CustomizeFrame extends JFrame implements ActionListener, Runnable{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(ok)){
-			System.out.println("DIS SHIT GIT CLICKED MON");
 			editorPane.buildNewStack(getSelectedBase(),getSelectedLength(),getSelectedLineLength());
 			setVisible(false);
 		}
