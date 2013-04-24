@@ -47,7 +47,7 @@ public class EditorPane extends JPanel{
 	private int fontType = Font.BOLD;
 	
 	private void initializeTextArea(){
-		text.setLineWrap(true);
+		text.setLineWrap(false);
 		//text.addMouseListener(this);
 		text.setEditable(true);
 		text.setFont(new Font(face, fontType, size));

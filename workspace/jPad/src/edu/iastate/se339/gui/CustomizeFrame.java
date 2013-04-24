@@ -40,6 +40,8 @@ public class CustomizeFrame extends JFrame implements ActionListener, Runnable{
 		setSize(350,150);
 		setLayout(new GridLayout(4,2));
 		
+		this.editorPane = editorPane;
+		
 		getContentPane().add(new JLabel("Text Base"), BorderLayout.CENTER);
 		textList = new JComboBox<String>(TEXT_BASES);
 		textList.setSelectedIndex(0);
@@ -85,8 +87,9 @@ public class CustomizeFrame extends JFrame implements ActionListener, Runnable{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(ok)){
-			setVisible(false);
+			System.out.println("DIS SHIT GIT CLICKED MON");
 			editorPane.buildNewStack(getSelectedBase(),getSelectedLength(),getSelectedLineLength());
+			setVisible(false);
 		}
 		else if(e.getSource().equals(cancel)){
 			setVisible(false);
