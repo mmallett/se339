@@ -144,6 +144,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 		 *****************************************/
 		createFileMenu();
 		createEditMenu();
+		createViewMenu();
 		createMenuBar();
 		setJMenuBar(menubar);
 	}
@@ -178,7 +179,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 	}
 	
 	public void createViewMenu(){
-		editMenu.add(customize);
+		viewMenu.add(customize);
 		
 	}
 
@@ -190,6 +191,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 	{
 		menubar.add(fileMenu);
 		menubar.add(editMenu);
+		menubar.add(viewMenu);
 	}
 	
 	/****************************************************************************
