@@ -7,5 +7,9 @@ public abstract class AbstractRepresentation {
 	
 	@Override
 	public abstract String toString();
+	
+	public byte[] getRawBytes(){
+		return rawBytes;
+	}
 
 }

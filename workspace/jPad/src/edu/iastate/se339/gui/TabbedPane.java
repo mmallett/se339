@@ -53,6 +53,7 @@ class TabbedPane extends JTabbedPane implements MouseListener{
 				EditorPane newTab = new EditorPane(file.getName(), file.getPath());
 				tabs.add(newTab);
 				addTab(file.getName(), new CloseTabIcon(null), newTab, file.getPath());
+				setSelectedIndex(tabs.size() - 1);
 			} catch(IOException e){
 				JOptionPane.showMessageDialog(this, e.toString());
 			}
@@ -62,6 +63,10 @@ class TabbedPane extends JTabbedPane implements MouseListener{
 	public void closeTab(int index){
 		tabs.remove(index);
 		remove(index);
+	}
+	
+	public void customize(){
+		tabs.get(getSelectedIndex()).customize();
 	}
 	
 	/*

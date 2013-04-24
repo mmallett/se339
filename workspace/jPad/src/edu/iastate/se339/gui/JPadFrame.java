@@ -1,17 +1,12 @@
 package edu.iastate.se339.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +21,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -55,14 +49,11 @@ public class JPadFrame extends JFrame implements ActionListener,
 	
 	private TabbedPane tabbedPane;
 	
-	//private FileTreePanel treePane;
-	
-	//private JSplitPane splitPane;
-
 	// menubar with menus
 	private JMenuBar menubar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
 	private JMenu editMenu = new JMenu("Edit");
+	private JMenu viewMenu = new JMenu("View");
 	
 	// file menu items
 	private JMenuItem xnew = new JMenuItem("New", 'N');
@@ -70,7 +61,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 	private JMenuItem exit = new JMenuItem("eXit", 'X');
 	private JMenuItem save = new JMenuItem("Save As", 'S');
 	
-	// font specifics: default values
+	private JMenuItem customize = new JMenuItem("Customize", 'C');
 	
 
 	
@@ -185,6 +176,11 @@ public class JPadFrame extends JFrame implements ActionListener,
 		editMenu.add(find);
 		//editMenu.add(optionSubMenu);
 	}
+	
+	public void createViewMenu(){
+		editMenu.add(customize);
+		
+	}
 
 
 	/******************************
@@ -208,9 +204,9 @@ public class JPadFrame extends JFrame implements ActionListener,
 		else if (source == open) openHandler();
 		else if (source == save) saveHandler();
 		else if (source == exit) exitHandler();
+		else if (source == customize) customizeHandler();
 	}
 
-	
 	/************************************
 	 *  Function to create new text area
 	 ***********************************/
@@ -360,6 +356,10 @@ public class JPadFrame extends JFrame implements ActionListener,
 			}
 		}*/
 		System.exit(0);
+	}
+	
+	private void customizeHandler() {
+		tabbedPane.customize();
 	}
 	
 	

@@ -1,6 +1,5 @@
 package edu.iastate.se339.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.IOException;
@@ -13,6 +12,10 @@ import javax.swing.JTextArea;
 import edu.iastate.se339.io.BinaryFile;
 import edu.iastate.se339.text.AbstractRepresentation;
 import edu.iastate.se339.text.AsciiRepresentation;
+import edu.iastate.se339.text.BinaryRepresentation;
+import edu.iastate.se339.text.HexRepresentation;
+import edu.iastate.se339.text.WordLengthDecorator;
+import edu.iastate.se339.text.WordTokenizerDecorator;
 
 public class EditorPane extends JPanel{
 	
@@ -49,5 +52,37 @@ public class EditorPane extends JPanel{
 		text.setFont(new Font(face, fontType, size));
 		//text.getDocument().addDocumentListener(this);
 		text.setTabSize(3);
+	}
+
+	public void customize() {
+		CustomizeFrame cust = new CustomizeFrame("Customize");
+		cust.setVisible(true);
+		while(cust.getResult() == CustomizeFrame.RESULT_INVALID);
+		if(cust.getResult() == CustomizeFrame.RESULT_OK){
+			byte[] bytes = decoratorStack.peek().getRawBytes();
+			decoratorStack.clear();
+			if(cust.getSelectedBase().equals("ASCII")){
+				decoratorStack.push(new AsciiRepresentation(bytes));
+			}
+			else{
+				if(cust.getSelectedBase().equals("HEX")){
+					decoratorStack.push(new HexRepresentation(bytes));
+				}
+				else{
+					decoratorStack.push(new BinaryRepresentation(bytes));
+				}
+				decoratorStack.push(
+						new WordLengthDecorator(
+							decoratorStack.peek(),
+							Integer.parseInt(cust.getSelectedLength())));
+				decoratorStack.push(
+						new WordTokenizerDecorator(
+							decoratorStack.peek(),
+							"",
+							Integer.parseInt(cust.getSelectedLineLength())));
+			}
+		}
+		
+		
 	}
 }
