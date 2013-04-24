@@ -9,3 +9,5 @@
 1366600861807	Rename type 'BaseTextRepresentation'
 1366601561364	Rename type 'TextRepresentation'
 1366653773403	Rename package 'edu.iastate.se339'
+1366769885953	Delete element
+1366771728652	Rename field 'xtext'

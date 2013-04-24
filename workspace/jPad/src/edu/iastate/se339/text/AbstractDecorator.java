@@ -6,6 +6,7 @@ public abstract class AbstractDecorator extends AbstractRepresentation {
 	
 	public AbstractDecorator(AbstractRepresentation component){
 		this.component = component;
+		this.rawBytes = component.rawBytes;
 	}
 
 	@Override

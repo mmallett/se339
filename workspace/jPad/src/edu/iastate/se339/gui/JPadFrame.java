@@ -1,6 +1,7 @@
 package edu.iastate.se339.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -70,9 +71,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 	private JMenuItem save = new JMenuItem("Save As", 'S');
 	
 	// font specifics: default values
-	private int size = 15;
-	private String face = "Consolas";
-	private int fontType = Font.BOLD;
+	
 
 	
 	/**********************************
@@ -147,7 +146,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 		openFiles = new ArrayList<String>();
 		//openFiles.add(NEW_FILE);
 		//tabbedPane.setIconAt(0, new CloseTabIcon(null));
-		setTitle("XText");
+		setTitle("jPad");
 		
 		/*****************************************
 		 *  create all the menus and the menubar
@@ -158,19 +157,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 		setJMenuBar(menubar);
 	}
 	
-	/******************************************************
-	 * This method is called just once!!! 
-	 ******************************************************/
-	public void settingTextAreaProperty(JTextArea text)
-	{
-		text.setLineWrap(true);
-		text.addMouseListener(this);
-		text.setEditable(true);
-		text.setFont(new Font(face, fontType, size));
-		text.getDocument().addDocumentListener(this);
-		text.setTabSize(3);
-		//text.setForeground(Color.GREEN);
-	}
+	
 	
 	/******************************************************************
 	 * Creating the file menu: the registration of ActionListener 
@@ -229,8 +216,9 @@ public class JPadFrame extends JFrame implements ActionListener,
 	 ***********************************/
 	public void xnewHandler()
 	{	
-		newTab("New");
-		openFiles.add(NEW_FILE);
+		//newTab("New");
+		//openFiles.add(NEW_FILE);
+		tabbedPane.newTab();
 	}
     
     
@@ -242,7 +230,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 	public void openHandler()
 	{
 		
-		int returnVal;
+		/*int returnVal;
 		JFileChooser fchooser = new JFileChooser(System.getProperty("user.home"));
 		
 		returnVal = fchooser.showOpenDialog(JPadFrame.this);
@@ -260,50 +248,51 @@ public class JPadFrame extends JFrame implements ActionListener,
 	       // writing function is invoked via this helper
 	       openHandlerHelper(file);
 	    }
-	    else { System.out.println("User decided not to open a file"); }
+	    else { System.out.println("User decided not to open a file"); }*/
+		tabbedPane.newTab();
 	}
 
-	// Another function: simple but invoked once: future use
-	public void openHandlerHelper(File file)
-	{
-		/*MyFileFiltermmallett filter = new MyFileFiltermmallett();
-		if(filter.accept(file)){*/
-			for(int i = 0; i< openFiles.size(); i++){
-				if(openFiles.get(i).equals(file.getName())){
-					tabbedPane.setSelectedIndex(i);
-					return;
-				}
-			}
-			String title = file.getName();
-			//setTitle(title);
-			newTab(title);
-			//tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), title);
-		    
-		    // file reading function is a helper to read file-data one line at a time
-		    fileReading(file);
-		  
-		    // need to set up the documentChanged to false; otherwise it will remain true incorrectly.
-		    //documentChanged = false;
-		    changedList.set(tabbedPane.getSelectedIndex(),false);
-		    openFiles.add(file.getName());
-		}
+//	// Another function: simple but invoked once: future use
+//	public void openHandlerHelper(File file)
+//	{
+//		/*MyFileFiltermmallett filter = new MyFileFiltermmallett();
+//		if(filter.accept(file)){*/
+//			for(int i = 0; i< openFiles.size(); i++){
+//				if(openFiles.get(i).equals(file.getName())){
+//					tabbedPane.setSelectedIndex(i);
+//					return;
+//				}
+//			}
+//			String title = file.getName();
+//			//setTitle(title);
+//			//newTab(title);
+//			//tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), title);
+//		    
+//		    // file reading function is a helper to read file-data one line at a time
+//		    fileReading(file);
+//		  
+//		    // need to set up the documentChanged to false; otherwise it will remain true incorrectly.
+//		    //documentChanged = false;
+//		    changedList.set(tabbedPane.getSelectedIndex(),false);
+//		    openFiles.add(file.getName());
+//		}
 	
-	// file reading helper
-	public void fileReading(File file)
-	{
-		try 
-	       {
-	    	   BufferedReader reader = new BufferedReader(new FileReader(file));
-	    	   String line = null;
-	    	   int i = tabbedPane.getSelectedIndex();
-	    	   while ((line = reader.readLine()) != null)
-	    	   {
-	    		   textList.get(i).append(line);
-	    		   textList.get(i).append("\n");
-	    	   }
-	    	   reader.close();
-	       } catch (IOException excep)   { excep.printStackTrace(); }
-	}
+//	// file reading helper
+//	public void fileReading(File file)
+//	{
+//		try 
+//	       {
+//	    	   BufferedReader reader = new BufferedReader(new FileReader(file));
+//	    	   String line = null;
+//	    	   int i = tabbedPane.getSelectedIndex();
+//	    	   while ((line = reader.readLine()) != null)
+//	    	   {
+//	    		   textList.get(i).append(line);
+//	    		   textList.get(i).append("\n");
+//	    	   }
+//	    	   reader.close();
+//	       } catch (IOException excep)   { excep.printStackTrace(); }
+//	}
 	
 	
 	/****************************
@@ -357,7 +346,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 	public void exitHandler()
 	{	
 		// Option to save is only provided when the current text document has been updated
-		for(int i = 0; i < tabbedPane.getComponentCount(); i++){
+		/*for(int i = 0; i < tabbedPane.getComponentCount(); i++){
 			if (changedList.get(i))
 			{
 				// open the dialog asking whether the user wants to save the file or not
@@ -369,7 +358,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 					saveHandler();
 				}
 			}
-		}
+		}*/
 		System.exit(0);
 	}
 	
@@ -500,7 +489,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 	 * Initializes the tab in the xtext data structures
 	 * @param title the title of the new tab
 	 */
-	protected void newTab(String title)
+	/*protected void newTab(String title)
 	{
 		textList.add(new JTextArea());
 		settingTextAreaProperty(textList.get(textList.size()-1));
@@ -508,7 +497,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 		tabbedPane.add(title,new JScrollPane(textList.get(textList.size()-1)));
 		tabbedPane.setSelectedIndex(tabbedPane.getComponentCount()-1);
 		tabbedPane.setIconAt(tabbedPane.getComponentCount()-1, new CloseTabIcon(null));
-	}
+	}*/
 	
 	/**
 	 * Invoked whenever a tab is closed (by clicking its close icon)

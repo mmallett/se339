@@ -19,5 +19,9 @@ public class AsciiRepresentation extends AbstractRepresentation{
 		}
 		return ret;
 	}
+	
+	public byte[] getRawBytes(){
+		return rawBytes;
+	}
 
 }

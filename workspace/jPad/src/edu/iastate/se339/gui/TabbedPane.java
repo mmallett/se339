@@ -3,7 +3,13 @@ package edu.iastate.se339.gui;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 /**
@@ -14,7 +20,9 @@ import javax.swing.JTabbedPane;
  */
 class TabbedPane extends JTabbedPane implements MouseListener{
 
-	private JPadFrame xtext;
+	private JPadFrame jpad;
+	
+	private List<EditorPane> tabs;
 	
 	/**
 	 * Create a new MyTabbedPane with itself attached as a mouselistener
@@ -23,7 +31,36 @@ class TabbedPane extends JTabbedPane implements MouseListener{
 	public TabbedPane(JPadFrame xtext){
 		super();
 		this.addMouseListener(this);
-		this.xtext = xtext;
+		this.jpad = xtext;
+		tabs = new ArrayList<EditorPane>();
+	}
+	
+	public void newTab(){
+
+		JFileChooser fchooser = new JFileChooser(System.getProperty("user.home"));
+		
+		int ret = fchooser.showOpenDialog(this);
+		if(ret == JFileChooser.APPROVE_OPTION){
+			
+			File file = fchooser.getSelectedFile();
+			if(file == null || !file.exists()){
+				JOptionPane.showMessageDialog(this, "File " + file.getName() + " not found!");
+				return;
+			}
+		
+			try{
+				EditorPane newTab = new EditorPane(file.getName(), file.getPath());
+				tabs.add(newTab);
+				addTab(file.getName(), new CloseTabIcon(null), newTab);
+			} catch(IOException e){
+				JOptionPane.showMessageDialog(this, e.toString());
+			}
+		}
+	}
+	
+	public void closeTab(int index){
+		tabs.remove(index);
+		remove(index);
 	}
 	
 	/*
@@ -39,7 +76,7 @@ class TabbedPane extends JTabbedPane implements MouseListener{
 			CloseTabIcon icon = (CloseTabIcon) this.getIconAt(i);
 			Rectangle rec = icon.getBounds();
 			if(rec.contains(arg0.getPoint())){
-				xtext.closeTab(i);
+				jpad.closeTab(i);
 			}
 		}
 		
