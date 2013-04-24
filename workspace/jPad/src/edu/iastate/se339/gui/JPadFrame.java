@@ -137,7 +137,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 		 ****************************************************************************************/
 		tabbedPane = new TabbedPane(this);
 		textList = new ArrayList<JTextArea>();
-		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		getContentPane().add(tabbedPane);
 		
 		// set the documentChanged to false to indicate initially nothing has changed in the text area
 		changedList = new ArrayList<Boolean>();
