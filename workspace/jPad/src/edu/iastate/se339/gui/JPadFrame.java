@@ -206,7 +206,7 @@ public class JPadFrame extends JFrame implements ActionListener,
 		else if (source == open) openHandler();
 		else if (source == save) saveHandler();
 		else if (source == exit) exitHandler();
-		else if (source == customize) customizeHandler();
+		else if (source.equals(customize)) customizeHandler();
 	}
 
 	/************************************
